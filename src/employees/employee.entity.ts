@@ -25,13 +25,14 @@ export class Employee {
     @Column({
         length: 100,
     })
-    cellphone: number;
+    cellphone: string;
 
     @Column({
     })
     registryDate: Date;
 
     @Column({
+        nullable: true
     })
     removalDate: Date;
 
