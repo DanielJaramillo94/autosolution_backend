@@ -11,11 +11,15 @@ import { GrabacionesModule } from './grabaciones/grabaciones.module';
 import { ArchivosModule } from './archivos/archivos.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ConfigModule } from '@nestjs/config';
 
 require('dotenv').config();
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     ReunionesModule,
     OcurrenciasModule,
