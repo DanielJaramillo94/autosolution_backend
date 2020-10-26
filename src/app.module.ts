@@ -11,6 +11,7 @@ import { GrabacionesModule } from './grabaciones/grabaciones.module';
 import { ArchivosModule } from './archivos/archivos.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ConfigModule } from '@nestjs/config';
 
 import { EmployeesModule } from './employees/employees.module';
 import { EmployeesController } from './employees/employees.controller';
@@ -26,6 +27,9 @@ require('dotenv').config();
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     TypeOrmModule.forFeature([Role, Employee]),
     ReunionesModule,
