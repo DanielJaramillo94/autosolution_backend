@@ -36,6 +36,8 @@ DATABASE_PORT = 3306_default_to_MariaDB_and_MySQL<br />
 DATABASE_USER = username_on_BD<br />
 DATABASE_PASSWORD = database_password<br />
 
+JWT_SECRET = secret_to_sign_and_verify_JWT
+
 _optional_<br />
 MODE = dev<br />
 Shows on console SQL sentences executed by TypeORM and sync models with DB. Therefore is recommended to set it when you want to mount a scheme on a empty DB.
