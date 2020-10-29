@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from './employee.entity';
 import { EmployeeDTO } from './employee.dto';
-import { hashSync, compareSync } from 'bcrypt';
+import { hashSync } from 'bcrypt';
 
 @Injectable()
 export class EmployeesService {
@@ -17,6 +17,13 @@ export class EmployeesService {
     async findById(employeeId: number) {
         const employees =  await this.employeesRepository.findByIds([employeeId]);
         return employees[0] ? employees[0] : employees;
+    }
+
+    async findByEmail(employeeEmail: string): Promise<Employee> {
+        const employee =  await this.employeesRepository.findOne({
+            where: { email: employeeEmail }
+        });
+        return employee || null;
     }
 
     async create(newEmployee: EmployeeDTO) {

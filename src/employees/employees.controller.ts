@@ -12,8 +12,8 @@ export class EmployeesController {
     }
 
     @Get(':id')
-    async findById(@Param('id') employeeId: number) {
-        return await this.employeesService.findById(employeeId);
+    async findByEmail(@Param('id') employeeEmail: string) {
+        return await this.employeesService.findByEmail(employeeEmail);
     }
 
     @Post()

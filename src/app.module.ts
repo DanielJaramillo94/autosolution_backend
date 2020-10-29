@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './config/config.service';
 
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 
 import { EmployeesModule } from './employees/employees.module';
@@ -29,7 +28,6 @@ require('dotenv').config();
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     TypeOrmModule.forFeature([Role, Employee]),
     AuthModule,
-    UsersModule,
     RolesModule,
     EmployeesModule
   ],
