@@ -13,7 +13,7 @@ export class Employee {
     name: string;
 
     @Column({
-        length: 50,
+        length: 1024,
     })
     password: string;
 

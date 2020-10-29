@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from './employee.entity';
 import { EmployeeDTO } from './employee.dto';
+import { hashSync, compareSync } from 'bcrypt';
 
 @Injectable()
 export class EmployeesService {
@@ -19,6 +20,8 @@ export class EmployeesService {
     }
 
     async create(newEmployee: EmployeeDTO) {
+        const hash = hashSync(newEmployee.password, 10);
+        newEmployee.password = hash;
         return this.employeesRepository.save(newEmployee);
     }
 
