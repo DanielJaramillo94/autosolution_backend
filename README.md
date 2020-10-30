@@ -6,6 +6,10 @@
 
 Project created for programming web course
 
+## AWS server
+http://ec2-34-207-62-212.compute-1.amazonaws.com:3000/
+http://ec2-34-207-62-212.compute-1.amazonaws.com:3000/employees
+
 ## Installation
 
 ```bash
