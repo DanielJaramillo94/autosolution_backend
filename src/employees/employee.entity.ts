@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, DeleteDateColumn} from 'typeorm';
 import { Role } from 'src/roles/role.entity';
 
 
@@ -31,9 +31,7 @@ export class Employee {
     })
     registryDate: Date;
 
-    @Column({
-        nullable: true
-    })
+    @DeleteDateColumn()
     removalDate: Date;
 
     @ManyToOne(() => Role, role => role.employees, {nullable: false, onDelete: 'CASCADE'})
