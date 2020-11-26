@@ -8,7 +8,7 @@ export class EmployeesController {
 
     @Get()
     findAll() {
-        return this.employeesService.findAll();
+       return this.employeesService.query({filter:{}});
     }
 
     @Get(':id')
@@ -28,6 +28,6 @@ export class EmployeesController {
 
     @Delete(':id')
     async delete(@Param('id') employeeId) {
-        return this.employeesService.delete(employeeId);
+       return this.employeesService.deleteOne(employeeId);
     }
 }

@@ -1,20 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { QueryService } from '@nestjs-query/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from './employee.entity';
 import { EmployeeDTO } from './employee.dto';
 import { hashSync } from 'bcrypt';
+import { TypeOrmQueryService } from '@nestjs-query/query-typeorm';
 
-@Injectable()
-export class EmployeesService {
-    constructor(@InjectRepository(Employee) private employeesRepository: Repository<Employee>) {}
+@QueryService(Employee)
+export class EmployeesService extends TypeOrmQueryService<Employee> {
+    constructor(@InjectRepository(Employee) private employeesRepository: Repository<Employee>) {
+        super(employeesRepository, { useSoftDelete: true });
+    }
 
     async findAll() {
         const employees =  await this.employeesRepository.find();
         return employees;
     }
 
-    async findById(employeeId: number) {
+    async findByIdentifier(employeeId: number) {
         const employees =  await this.employeesRepository.findByIds([employeeId]);
         return employees[0] ? employees[0] : employees;
     }
@@ -36,8 +40,8 @@ export class EmployeesService {
         return this.employeesRepository.update(employeeId, newEmployee);
     }
 
-    async delete(employeeId: number) {
+    /*async delete(employeeId: number) {
         const employee = await this.employeesRepository.findByIds([employeeId])
         return this.employeesRepository.remove(employee[0]);
-    }
+    }*/
 }
