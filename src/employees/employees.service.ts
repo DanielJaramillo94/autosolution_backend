@@ -1,4 +1,3 @@
-import { Injectable } from '@nestjs/common';
 import { QueryService } from '@nestjs-query/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
