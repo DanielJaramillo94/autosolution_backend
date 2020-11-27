@@ -1,4 +1,5 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, DeleteDateColumn} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne,
+        JoinColumn, DeleteDateColumn, CreateDateColumn} from 'typeorm';
 import { Role } from 'src/roles/role.entity';
 
 
@@ -27,8 +28,7 @@ export class Employee {
     })
     cellphone: string;
 
-    @Column({
-    })
+    @CreateDateColumn()
     registryDate: Date;
 
     @DeleteDateColumn()
