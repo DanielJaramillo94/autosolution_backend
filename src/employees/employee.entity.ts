@@ -1,6 +1,6 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, DeleteDateColumn} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, DeleteDateColumn, OneToMany} from 'typeorm';
 import { Role } from 'src/roles/role.entity';
-
+import { VehicleState } from 'src/vehicleStates/vehicleState.entity';
 
 @Entity('employee')
 export class Employee {
@@ -41,4 +41,6 @@ export class Employee {
     @Column({ type: "int" })
     roleId: number;
 
+    @OneToMany(type => VehicleState, vehicleState => vehicleState.employee) 
+    vehicleStates: VehicleState[];
 }

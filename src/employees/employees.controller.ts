@@ -16,6 +16,11 @@ export class EmployeesController {
         return await this.employeesService.findByEmail(employeeEmail);
     }
 
+    @Get(':id')
+    async findByIdentifier(@Param('id') employeeId: number) {
+        return await this.employeesService.findByIdentifier(employeeId);
+    }
+
     @Post()
     async create(@Body() newEmployee: EmployeeDTO){
         return this.employeesService.create(newEmployee);
