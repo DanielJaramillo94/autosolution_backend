@@ -1,6 +1,7 @@
 import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, DeleteDateColumn, OneToMany} from 'typeorm';
 import { Role } from 'src/roles/role.entity';
 import { VehicleState } from 'src/vehicleStates/vehicleState.entity';
+import { Audit } from 'src/audits/audit.entity';
 
 @Entity('employee')
 export class Employee {
@@ -43,4 +44,7 @@ export class Employee {
 
     @OneToMany(type => VehicleState, vehicleState => vehicleState.employee) 
     vehicleStates: VehicleState[];
+
+    @OneToMany(type => Audit, audit => audit.employee) 
+    audits: Audit[];
 }

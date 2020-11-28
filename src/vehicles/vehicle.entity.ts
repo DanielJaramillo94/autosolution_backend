@@ -2,6 +2,7 @@ import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany
 import { VehicleType } from 'src/vehicleTypes/vehicleType.entity';
 import { State } from 'src/states/state.entity';
 import { VehicleState } from 'src/vehicleStates/vehicleState.entity';
+import { VehicleXowner } from 'src/vehiclesXowners/vehicleXowner.entity';
 
 @Entity('vehicle')
 export class Vehicle {
@@ -44,4 +45,7 @@ export class Vehicle {
 
     @OneToMany(type => VehicleState, vehicleState => vehicleState.vehicle) 
     vehicleStates: VehicleState[];
+
+    @OneToMany(type => VehicleXowner, vehicleXowner => vehicleXowner.vehicle) 
+    vehicleXowners: VehicleXowner[];
 }

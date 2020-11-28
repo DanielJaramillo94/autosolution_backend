@@ -1,3 +1,4 @@
 export class VehicleXownerDTO {
-    name: string;
+    vehicleId: number;
+    ownerId: number;
 }

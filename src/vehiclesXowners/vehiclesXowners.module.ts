@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { RolesController } from './vehiclesXowners.controller';
-import { RolesService } from './vehiclesXowners.service';
-import { Role } from './vehicleXowner.entity';
+import { VehicleXownersController } from './vehiclesXowners.controller';
+import { VehicleXownersService } from './vehiclesXowners.service';
+import { VehicleXowner } from './vehicleXowner.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Role])],
-  controllers: [RolesController],
-  providers: [RolesService],
-  exports: [RolesService],
+  imports: [TypeOrmModule.forFeature([VehicleXowner])],
+  controllers: [VehicleXownersController],
+  providers: [VehicleXownersService],
+  exports: [VehicleXownersService],
 })
-export class RolesModule {}
+export class VehicleXownersModule {}

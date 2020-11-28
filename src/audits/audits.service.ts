@@ -1,33 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Role } from './audit.entity';
-import { RoleDTO } from './audit.dto';
+import { Audit } from './audit.entity';
+import { AuditDTO } from './audit.dto';
 
 @Injectable()
-export class RolesService {
-    constructor(@InjectRepository(Role) private rolesRepository: Repository<Role>) {}
+export class AuditsService {
+    constructor(@InjectRepository(Audit) private auditsRepository: Repository<Audit>) {}
 
     async findAll() {
-        const roles =  await this.rolesRepository.find();
-        return roles;
+        const audits =  await this.auditsRepository.find();
+        return audits;
     }
 
-    async findById(roleId: number) {
-        const roles =  await this.rolesRepository.findByIds([roleId]);
-        return roles[0] ? roles[0] : roles;
+    async findById(auditId: number) {
+        const audits =  await this.auditsRepository.findByIds([auditId]);
+        return audits[0] ? audits[0] : audits;
     }
 
-    async create(newRole: RoleDTO) {
-        return this.rolesRepository.save(newRole);
+    async create(newAudit: AuditDTO) {
+        return this.auditsRepository.save(newAudit);
     }
 
-    async replace(roleId: number, newRole: RoleDTO) {
-        return this.rolesRepository.update(roleId, newRole);
+    async replace(auditId: number, newAudit: AuditDTO) {
+        return this.auditsRepository.update(auditId, newAudit);
     }
 
-    async delete(roleId: number) {
-        const role = await this.rolesRepository.findByIds([roleId])
-        return this.rolesRepository.remove(role[0]);
+    async delete(auditId: number) {
+        const audit = await this.auditsRepository.findByIds([auditId])
+        return this.auditsRepository.remove(audit[0]);
     }
 }

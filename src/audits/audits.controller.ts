@@ -1,33 +1,33 @@
 import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
-import { RolesService } from './audits.service';
-import { RoleDTO } from './audit.dto';
+import { AuditsService } from './audits.service';
+import { AuditDTO } from './audit.dto';
 
-@Controller('roles')
-export class RolesController {
-    constructor (private rolesService: RolesService) {}
+@Controller('audits')
+export class AuditsController {
+    constructor (private auditsService: AuditsService) {}
 
     @Get()
     findAll() {
-        return this.rolesService.findAll();
+        return this.auditsService.findAll();
     }
 
     @Get(':id')
-    async findById(@Param('id') roleId: number) {
-        return await this.rolesService.findById(roleId);
+    async findById(@Param('id') auditId: number) {
+        return await this.auditsService.findById(auditId);
     }
 
     @Post()
-    async create(@Body() newRole: RoleDTO){
-        return this.rolesService.create(newRole);
+    async create(@Body() newAudit: AuditDTO){
+        return this.auditsService.create(newAudit);
     }
 
     @Put(':id')
-    async replace(@Param('id') roleId: number, @Body() newRole: RoleDTO) {
-        return this.rolesService.replace(roleId, newRole);
+    async replace(@Param('id') auditId: number, @Body() newAudit: AuditDTO) {
+        return this.auditsService.replace(auditId, newAudit);
     }
 
     @Delete(':id')
-    async delete(@Param('id') roleId) {
-        return this.rolesService.delete(roleId);
+    async delete(@Param('id') auditId) {
+        return this.auditsService.delete(auditId);
     }
 }

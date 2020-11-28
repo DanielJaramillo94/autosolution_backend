@@ -1,33 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Role } from './vehicleXowner.entity';
-import { RoleDTO } from './vehicleXowner.dto';
+import { VehicleXowner } from './vehicleXowner.entity';
+import { VehicleXownerDTO } from './vehicleXowner.dto';
 
 @Injectable()
-export class RolesService {
-    constructor(@InjectRepository(Role) private rolesRepository: Repository<Role>) {}
+export class VehicleXownersService {
+    constructor(@InjectRepository(VehicleXowner) private vehicleXownersRepository: Repository<VehicleXowner>) {}
 
     async findAll() {
-        const roles =  await this.rolesRepository.find();
-        return roles;
+        const vehicleXowners =  await this.vehicleXownersRepository.find();
+        return vehicleXowners;
     }
 
-    async findById(roleId: number) {
-        const roles =  await this.rolesRepository.findByIds([roleId]);
-        return roles[0] ? roles[0] : roles;
+    async findById(vehicleXownerId: number) {
+        const vehicleXowners =  await this.vehicleXownersRepository.findByIds([vehicleXownerId]);
+        return vehicleXowners[0] ? vehicleXowners[0] : vehicleXowners;
     }
 
-    async create(newRole: RoleDTO) {
-        return this.rolesRepository.save(newRole);
+    async create(newVehicleXowner: VehicleXownerDTO) {
+        return this.vehicleXownersRepository.save(newVehicleXowner);
     }
 
-    async replace(roleId: number, newRole: RoleDTO) {
-        return this.rolesRepository.update(roleId, newRole);
+    async replace(vehicleXownerId: number, newVehicleXowner: VehicleXownerDTO) {
+        return this.vehicleXownersRepository.update(vehicleXownerId, newVehicleXowner);
     }
 
-    async delete(roleId: number) {
-        const role = await this.rolesRepository.findByIds([roleId])
-        return this.rolesRepository.remove(role[0]);
+    async delete(vehicleXownerId: number) {
+        const vehicleXowner = await this.vehicleXownersRepository.findByIds([vehicleXownerId])
+        return this.vehicleXownersRepository.remove(vehicleXowner[0]);
     }
 }

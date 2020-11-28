@@ -1,33 +1,33 @@
 import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
-import { RolesService } from './owners.service';
-import { RoleDTO } from './owner.dto';
+import { OwnersService } from './owners.service';
+import { OwnerDTO } from './owner.dto';
 
-@Controller('roles')
-export class RolesController {
-    constructor (private rolesService: RolesService) {}
+@Controller('owners')
+export class OwnersController {
+    constructor (private ownersService: OwnersService) {}
 
     @Get()
     findAll() {
-        return this.rolesService.findAll();
+        return this.ownersService.findAll();
     }
 
     @Get(':id')
-    async findById(@Param('id') roleId: number) {
-        return await this.rolesService.findById(roleId);
+    async findById(@Param('id') ownerId: number) {
+        return await this.ownersService.findById(ownerId);
     }
 
     @Post()
-    async create(@Body() newRole: RoleDTO){
-        return this.rolesService.create(newRole);
+    async create(@Body() newOwner: OwnerDTO){
+        return this.ownersService.create(newOwner);
     }
 
     @Put(':id')
-    async replace(@Param('id') roleId: number, @Body() newRole: RoleDTO) {
-        return this.rolesService.replace(roleId, newRole);
+    async replace(@Param('id') ownerId: number, @Body() newOwner: OwnerDTO) {
+        return this.ownersService.replace(ownerId, newOwner);
     }
 
     @Delete(':id')
-    async delete(@Param('id') roleId) {
-        return this.rolesService.delete(roleId);
+    async delete(@Param('id') ownerId) {
+        return this.ownersService.delete(ownerId);
     }
 }

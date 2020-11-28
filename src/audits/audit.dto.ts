@@ -1,3 +1,6 @@
 export class AuditDTO {
-    name: string;
+    date: Date;
+    description: string;
+    ownerId: number;
+    employeeId: number;
 }

@@ -13,7 +13,7 @@ export class State {
     name: string;
 
     @Column({
-        length: 50,
+        length: 300,
     })
     description: string;
 

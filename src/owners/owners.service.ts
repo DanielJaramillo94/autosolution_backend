@@ -1,33 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Role } from './owner.entity';
-import { RoleDTO } from './owner.dto';
+import { Owner } from './owner.entity';
+import { OwnerDTO } from './owner.dto';
 
 @Injectable()
-export class RolesService {
-    constructor(@InjectRepository(Role) private rolesRepository: Repository<Role>) {}
+export class OwnersService {
+    constructor(@InjectRepository(Owner) private ownersRepository: Repository<Owner>) {}
 
     async findAll() {
-        const roles =  await this.rolesRepository.find();
-        return roles;
+        const owners =  await this.ownersRepository.find();
+        return owners;
     }
 
-    async findById(roleId: number) {
-        const roles =  await this.rolesRepository.findByIds([roleId]);
-        return roles[0] ? roles[0] : roles;
+    async findById(ownerId: number) {
+        const owners =  await this.ownersRepository.findByIds([ownerId]);
+        return owners[0] ? owners[0] : owners;
     }
 
-    async create(newRole: RoleDTO) {
-        return this.rolesRepository.save(newRole);
+    async create(newOwner: OwnerDTO) {
+        return this.ownersRepository.save(newOwner);
     }
 
-    async replace(roleId: number, newRole: RoleDTO) {
-        return this.rolesRepository.update(roleId, newRole);
+    async replace(ownerId: number, newOwner: OwnerDTO) {
+        return this.ownersRepository.update(ownerId, newOwner);
     }
 
-    async delete(roleId: number) {
-        const role = await this.rolesRepository.findByIds([roleId])
-        return this.rolesRepository.remove(role[0]);
+    async delete(ownerId: number) {
+        const owner = await this.ownersRepository.findByIds([ownerId])
+        return this.ownersRepository.remove(owner[0]);
     }
 }

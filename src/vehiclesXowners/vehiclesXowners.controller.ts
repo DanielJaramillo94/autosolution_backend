@@ -1,33 +1,33 @@
 import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
-import { RolesService } from './vehiclesXowners.service';
-import { RoleDTO } from './vehicleXowner.dto';
+import { VehicleXownersService } from './vehiclesXowners.service';
+import { VehicleXownerDTO } from './vehicleXowner.dto';
 
-@Controller('roles')
-export class RolesController {
-    constructor (private rolesService: RolesService) {}
+@Controller('vehicleXowners')
+export class VehicleXownersController {
+    constructor (private vehicleXownersService: VehicleXownersService) {}
 
     @Get()
     findAll() {
-        return this.rolesService.findAll();
+        return this.vehicleXownersService.findAll();
     }
 
     @Get(':id')
-    async findById(@Param('id') roleId: number) {
-        return await this.rolesService.findById(roleId);
+    async findById(@Param('id') vehicleXownerId: number) {
+        return await this.vehicleXownersService.findById(vehicleXownerId);
     }
 
     @Post()
-    async create(@Body() newRole: RoleDTO){
-        return this.rolesService.create(newRole);
+    async create(@Body() newVehicleXowner: VehicleXownerDTO){
+        return this.vehicleXownersService.create(newVehicleXowner);
     }
 
     @Put(':id')
-    async replace(@Param('id') roleId: number, @Body() newRole: RoleDTO) {
-        return this.rolesService.replace(roleId, newRole);
+    async replace(@Param('id') vehicleXownerId: number, @Body() newVehicleXowner: VehicleXownerDTO) {
+        return this.vehicleXownersService.replace(vehicleXownerId, newVehicleXowner);
     }
 
     @Delete(':id')
-    async delete(@Param('id') roleId) {
-        return this.rolesService.delete(roleId);
+    async delete(@Param('id') vehicleXownerId) {
+        return this.vehicleXownersService.delete(vehicleXownerId);
     }
 }

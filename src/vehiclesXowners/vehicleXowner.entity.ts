@@ -1,16 +1,23 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
-import { Employee } from 'src/employees/employee.entity';
+import { Owner } from 'src/owners/owner.entity';
+import { Vehicle } from 'src/vehicles/vehicle.entity';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from 'typeorm';
 
-@Entity('role')
-export class Role {
+@Entity('vehicleXowner')
+export class VehicleXowner {
     @PrimaryGeneratedColumn()
     id: number;   
 
-    @Column({
-        length: 50,
-    })
-    name: string;
+    @ManyToOne(() => Vehicle, vehicle => vehicle.vehicleXowners, {nullable: false, onDelete: 'CASCADE'})
+    @JoinColumn({ name: "vehicleId" })
+    vehicle: Vehicle;
 
-    @OneToMany(type => Employee, employee => employee.role) 
-    employees: Employee[];
+    @Column({ type: "int" })
+    vehicleId: number;
+
+    @ManyToOne(() => Owner, owner => owner.vehicleXowners, {nullable: false, onDelete: 'CASCADE'})
+    @JoinColumn({ name: "ownerId" })
+    owner: Owner;
+
+    @Column({ type: "int" })
+    ownerId: number;
 }
