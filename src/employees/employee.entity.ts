@@ -1,4 +1,5 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, DeleteDateColumn, OneToMany} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne,
+        JoinColumn, DeleteDateColumn, CreateDateColumn} from 'typeorm';
 import { Role } from 'src/roles/role.entity';
 import { VehicleState } from 'src/vehicleStates/vehicleState.entity';
 import { Audit } from 'src/audits/audit.entity';
@@ -28,8 +29,7 @@ export class Employee {
     })
     cellphone: string;
 
-    @Column({
-    })
+    @CreateDateColumn()
     registryDate: Date;
 
     @DeleteDateColumn()

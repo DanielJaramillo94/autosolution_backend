@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
 import { QueryService } from '@nestjs-query/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from './employee.entity';
 import { EmployeeDTO } from './employee.dto';
-import { hashSync } from 'bcrypt';
 import { TypeOrmQueryService } from '@nestjs-query/query-typeorm';
+import { Logger} from '@nestjs/common';
 
 @QueryService(Employee)
 export class EmployeesService extends TypeOrmQueryService<Employee> {
+    private readonly logger = new Logger(EmployeesService.name)
     constructor(@InjectRepository(Employee) private employeesRepository: Repository<Employee>) {
         super(employeesRepository, { useSoftDelete: true });
     }
@@ -30,9 +30,7 @@ export class EmployeesService extends TypeOrmQueryService<Employee> {
         return employee || null;
     }
 
-    async create(newEmployee: EmployeeDTO) {
-        const hash = hashSync(newEmployee.password, 10);
-        newEmployee.password = hash;
+    async create(newEmployee: EmployeeDTO) {   
         return this.employeesRepository.save(newEmployee);
     }
 
