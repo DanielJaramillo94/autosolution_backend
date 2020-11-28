@@ -1,7 +1,8 @@
 import {Entity, Column, PrimaryGeneratedColumn, ManyToOne,
         JoinColumn, DeleteDateColumn, CreateDateColumn} from 'typeorm';
 import { Role } from 'src/roles/role.entity';
-
+import { VehicleState } from 'src/vehicleStates/vehicleState.entity';
+import { Audit } from 'src/audits/audit.entity';
 
 @Entity('employee')
 export class Employee {
@@ -41,4 +42,9 @@ export class Employee {
     @Column({ type: "int" })
     roleId: number;
 
+    @OneToMany(type => VehicleState, vehicleState => vehicleState.employee) 
+    vehicleStates: VehicleState[];
+
+    @OneToMany(type => Audit, audit => audit.employee) 
+    audits: Audit[];
 }
