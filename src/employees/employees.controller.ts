@@ -13,10 +13,15 @@ export class EmployeesController {
        return this.employeesService.query({filter:{}});
     }
 
-    @Get(':id')
-    async findByEmail(@Param('id') employeeEmail: string) {
+    @Get(':email')
+    async findByEmail(@Param('email') employeeEmail: string) {
         return await this.employeesService.findByEmail(employeeEmail);
     }
+
+/*     @Get(':id')
+    async findByIdentifier(@Param('id') employeeId: number) {
+        return await this.employeesService.findByIdentifier(employeeId);
+    } */
 
     @Post()
     async create(@Body() newEmployee: EmployeeDTO){
