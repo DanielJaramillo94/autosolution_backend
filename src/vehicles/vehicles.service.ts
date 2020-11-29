@@ -9,12 +9,12 @@ export class VehiclesService {
     constructor(@InjectRepository(Vehicle) private vehiclesRepository: Repository<Vehicle>) {}
 
     async findAll() {
-        const vehicles =  await this.vehiclesRepository.find();
+        const vehicles =  await this.vehiclesRepository.find({select: ["id", "plate", "brand", "model", "color"], relations: ["vehicleType", "state"] });
         return vehicles;
     }
 
     async findById(vehicleId: number) {
-        const vehicles =  await this.vehiclesRepository.findByIds([vehicleId]);
+        const vehicles =  await this.vehiclesRepository.findByIds([vehicleId], {select: ["id", "plate", "brand", "model", "color"], relations: ["vehicleType", "state"] });
         return vehicles[0] ? vehicles[0] : vehicles;
     }
 

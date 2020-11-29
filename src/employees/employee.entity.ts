@@ -1,5 +1,5 @@
 import {Entity, Column, PrimaryGeneratedColumn, ManyToOne,
-        JoinColumn, DeleteDateColumn, CreateDateColumn} from 'typeorm';
+        JoinColumn, DeleteDateColumn, CreateDateColumn, OneToMany} from 'typeorm';
 import { Role } from 'src/roles/role.entity';
 import { VehicleState } from 'src/vehicleStates/vehicleState.entity';
 import { Audit } from 'src/audits/audit.entity';

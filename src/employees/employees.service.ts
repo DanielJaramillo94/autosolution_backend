@@ -13,19 +13,19 @@ export class EmployeesService extends TypeOrmQueryService<Employee> {
         super(employeesRepository, { useSoftDelete: true });
     }
 
-    async findAll() {
-        const employees =  await this.employeesRepository.find();
-        return employees;
-    }
+/*     async findAll() {
+        const employees =  await this.employeesRepository.find({select: ["id", "name", "password", "email", "cellphone", "registryDate", "removalDate"], relations: ["role"]});
+        return employees; 
+    } */
 
-    async findByIdentifier(employeeId: number) {
-        const employees =  await this.employeesRepository.findByIds([employeeId]);
+/*     async findByIdentifier(employeeId: number) {
+        const employees =  await this.employeesRepository.findByIds([employeeId], {select: ["id", "name", "password", "email", "cellphone", "registryDate", "removalDate"], relations: ["role"]});
         return employees[0] ? employees[0] : employees;
-    }
+    } */
 
     async findByEmail(employeeEmail: string): Promise<Employee> {
         const employee =  await this.employeesRepository.findOne({
-            where: { email: employeeEmail }
+            where: { email: employeeEmail }, select: ["id", "name", "password", "email", "cellphone", "registryDate", "removalDate"], relations: ["role"]
         });
         return employee || null;
     }
@@ -37,9 +37,4 @@ export class EmployeesService extends TypeOrmQueryService<Employee> {
     async replace(employeeId: number, newEmployee: EmployeeDTO) {
         return this.employeesRepository.update(employeeId, newEmployee);
     }
-
-    /*async delete(employeeId: number) {
-        const employee = await this.employeesRepository.findByIds([employeeId])
-        return this.employeesRepository.remove(employee[0]);
-    }*/
 }
