@@ -3,8 +3,46 @@ import { EmployeesService } from './employees.service';
 import { EmployeeDTO } from './employee.dto';
 import { Logger} from '@nestjs/common';
 import * as crypto from 'crypto';
-import * as CryptoJS from 'crypto-js';
+import * as forge from 'node-forge';
 
+const privateKey = `-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAnmFkKq7CnYarrvP06e72WNqjR6VdeW0sJ+fLMMCD8JMfRQg3
+8TkbArPw9dgAIXzLoiMlxmT3g166uD2hX1GxycOYHlsaRQkZA4FbVcmgPhDW/2KN
+MR5SRewJevyF4glCXY6ijC1y4/iTIAe7v6p8sQn1Oxw6hzGGOaWKIgSMbdb6fuaa
+2Ak5C8ifn8phHWAL9kXUhUihgn2yURp/wV7U34VZXk8U1O25K7wWsfRgf9nSYkhm
+424UrJzwqthGiS3DErkdro+kaW06ik23h6w9j0M1+ZJr6MI7GiUWJ4efsOLWz+gv
+cI46lYhHgU8Gb92P/QLRfKvR1tYtzjjg2nJORwIDAQABAoIBAAUsj1YpoWf+B0vO
+4nhl+xxKAD2N9HDMFT40f1nXYDgSxlm9+/3gbLZ45G1ToiV16z0fwtMpZ0CebqEo
+OkZf59v8jNKpDUGmG3AW4MH7tUVxzWRIdu5c3Dk2jdS7vS/2N3nQ+BR2Q6OY8k2A
+kyyeyDYMajuFH5BdGNJ3SvzzgxbvetTcNJcbqsPRe9xpMDvxPNGECVhUZ0LLdAGu
+0bzuJTErDbzVndUSFQoMaFz64aVlGU7JPtIHMZlNObBgwa7wJJan4XjfWIiZkXN4
+r5cZ6yH3I09aXIH6JQgmQ85Oib2LBLITcel/NE0OwxTLfKgnL6TtFBedRZ+82ojg
+GxKGMlECgYEAzSUtZKQ2oegStcYUfYvLzv24NxuaLITbQpw4efwdfec0pIZn8Fnn
+6au81gRzrblUtbVmBCnwjCKL02wqploTOR8lH9Mjdd/l5QjQP58A8xLqVi2/vW1Z
+cjwMC+GbNGMl3M0xmHieH9mH0C6ab1KZ71SPMv9mWXwuc7EgC+6r3v8CgYEAxaRz
+VC1VxjExOpKuCiya9nQ0ynJwsCeEr+ZJR+w/xUu+9iRiss5+NGbVeTAp711UH62n
+uULBX9OBCHyuky/2IGUdH5r+9y7DO43oty/fRqxhzx4BzxWTtZTipBd9NpA/hNII
+BL2xeUh9R+gZsVffVROADV4juQpdzMyMs5rp2LkCgYBi5jhzG4PHHGXgwkTgncO8
+366uypzSN56pBz1m+beSGiPT6YQ0aHOYwJXCK9VE/GMtUu2CtmFkfcchPzV0i1pX
+IH+6TwT6b92aRFx5P4OqrATTVSzp+syzeOVp2PMFF4OKZlYxpny86BdEsyL65jyW
+GBMNR/mkzGxslAjaF88+KwKBgQCNJH2/9Yg1u1eerrVfSq93pVE16jgTdIVLYLeg
+h1SbPxamjSF29AQow+9bVkv8RrgWz1rh8IxMNK0HNJMvRacNR2he8791Io4F77fr
+amKXA+/ti05bZttPZ33bFXM0DhtubNeRGy6soFnnihcfENPK29wsr7fvIzoNUV6B
+vPWW8QKBgQCB+55vnoGT2k3Z59KcazHnrmgTf6sdS4Kc5rcksnpd4hVdKV/rtDxA
+AdtzotIiGy2kG+HMbvkdq955iUVbL9dd6x0W47MxV2xayEDL7oPrP+CKluHlsMYL
+4J6r9Y5+kno2OF1TvsaWFVHmZnID0pbByQjNQ5sAd/NVueZwnJDisg==
+-----END RSA PRIVATE KEY-----`
+
+const publicKey = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnmFkKq7CnYarrvP06e72
+WNqjR6VdeW0sJ+fLMMCD8JMfRQg38TkbArPw9dgAIXzLoiMlxmT3g166uD2hX1Gx
+ycOYHlsaRQkZA4FbVcmgPhDW/2KNMR5SRewJevyF4glCXY6ijC1y4/iTIAe7v6p8
+sQn1Oxw6hzGGOaWKIgSMbdb6fuaa2Ak5C8ifn8phHWAL9kXUhUihgn2yURp/wV7U
+34VZXk8U1O25K7wWsfRgf9nSYkhm424UrJzwqthGiS3DErkdro+kaW06ik23h6w9
+j0M1+ZJr6MI7GiUWJ4efsOLWz+gvcI46lYhHgU8Gb92P/QLRfKvR1tYtzjjg2nJO
+RwIDAQAB
+-----END PUBLIC KEY-----`
+        
 @Controller('employees')
 export class EmployeesController {    
     private readonly logger = new Logger(EmployeesController.name)
@@ -54,60 +92,54 @@ export class EmployeesController {
             encryptedData
         )
         
-        console.log("decrypted data: ", decryptedData.toString())
+        //console.log("decrypted data: ", decryptedData.toString())
 
         return decryptedData.toString()
         
     }
 
     @Post('tests')
-    async login(@Body() login: any){
-        const privateKey = `-----BEGIN RSA PRIVATE KEY-----
-        MIIEogIBAAKCAQEAmbUxk0iPtrKMNR8Tkv4K0xFRsNACtZCclQ+1GMcP8t2+I7qC
-        QWrSQIuDzvpQXHT7Z2MGLPFbDCD9lD8sfbHbTRxUjai93uN/w+L/qOY86c0gdRFd
-        qO+XW1FjtHx+jaCaHXs4nHutzjfcBH0rXydzkuUUoTzdxuB4psJYAOnOh7xWQpzb
-        R9w7FDAeBXQ8rNtgFHhe46SifO68G1y3Enbl2QBsITmz58UJE9Bsv7MFn2fnyVTU
-        WwYpAYGcTlTXND0rZsr1/RPyTsx9pOdb5okxQx9kIP+8MUXhNBTW+VdT0cVkAPtg
-        pMuROttyvL8JgLvIPXQjWcql25DsoSX3D9Ph5QIDAQABAoIBABa2/TWL0pkoN6oe
-        BpGBc24PsCfWBaB5V3p70MJxoHy+oju7c0Zhl+Kr+3WZ7khLjV+Q9besj0zyjyba
-        UyPcJdF2b1Rj7HNE4Xu8TxXRuIzAoJxMTbAKgC6hj397qmQZqMzUieAuMtg3zw7m
-        xIMSXHUH342YZhne0FWsgL7ZzoimZOJBCOMjyjuNWZ5JXK2y243HBG3cRVrKjmcn
-        TdRGX0tWcrEv6FYWGrJdM30d+aWfDVBRr3thf+Wpz6cQZ4iOMHRybuBkjQmAPJw+
-        gGoDBNTDhEzAnAsd2b64KtBA+pzOUNh9swRvqZdEtZYB8nbIier6bvZFAPiwRNup
-        hAqONZ0CgYEAyTzFdisOEwJg9PzZ0N41UNm7IQMC5zbcp9YWzX3K55eMS08BVxt/
-        g5De0EhtdlUoqgD5vVCo8L6c9ZxPhYGvWow3UgS7WXPfSsyojrY5wKilcQX7Wk72
-        demrcMpV8h+sqAqp5K11TLJF8UliQbUMPccGZd3w7W39dFcTsujbsccCgYEAw4lE
-        PaTc0RjgtQEEfwWqz4lVsxwB40O/NS/YDxLGzqh+rI2+ajnSuvjqUdaTVKxR7lD8
-        cKU0+2H1j0eFr8Wy0jzot/UwdgP+4Qyog77MEufPHScZZtWLy32I5IwAONzrW84t
-        3bXfMCEeZ3LLEkNzrcoUIpiweqnBvSyx38/kzvMCgYBilAqG4IB8f2XPnS12S+QC
-        PyaT/U2mxhFBhnaVI1IKMQrguUsGyMmmQYlkrpYwqXbKEMBGJQUdKcLp7jBmTikA
-        Sj+vRfIg18pCcg8AGfQglHy26R9AFf5VtKnvDq8bdLi3eMHQ68fSUmJA2JnxZicg
-        /CX+MMKdDIxkOWPE+JzmcQKBgGcujSMWVyvDu/fn1I6O2AbyCpYcRma9vi171MCH
-        gP9WbJnzpjJ51tixNzz+RPqegBGJDN0IYL/yflkgPcx2P5mvaIKCURNFon7xZg83
-        ZIrpZiKVGlNohn9X/B/WPNvEwDHOx+dB7MeCAoBGVCCMFYP0qdFjz2S7JbAE4Mwg
-        8TW/AoGAVCeVYNYQHSkuWjJS0kLHHIx+NxIv0ifmiM3RxgYlf+yQ2lC0Jh5ERt3g
-        Js3SHfks2n0p/2S4GyyYgjgyrcQL79C5Sh/qm3U1CmWRAKOmvm7WeEW/RugfcdQr
-        BsjZemUZYp+Pu/Jhn9JYqCAKI/ayFPoFrUTOY0RhE728ZbAMBlM=
-        -----END RSA PRIVATE KEY-----`
+    async login(@Body() login: any){            
 
-        const publicKey = `-----BEGIN RSA PUBLIC KEY-----
-        MIIBCgKCAQEAmbUxk0iPtrKMNR8Tkv4K0xFRsNACtZCclQ+1GMcP8t2+I7qCQWrS
-        QIuDzvpQXHT7Z2MGLPFbDCD9lD8sfbHbTRxUjai93uN/w+L/qOY86c0gdRFdqO+X
-        W1FjtHx+jaCaHXs4nHutzjfcBH0rXydzkuUUoTzdxuB4psJYAOnOh7xWQpzbR9w7
-        FDAeBXQ8rNtgFHhe46SifO68G1y3Enbl2QBsITmz58UJE9Bsv7MFn2fnyVTUWwYp
-        AYGcTlTXND0rZsr1/RPyTsx9pOdb5okxQx9kIP+8MUXhNBTW+VdT0cVkAPtgpMuR
-        OttyvL8JgLvIPXQjWcql25DsoSX3D9Ph5QIDAQAB
-        -----END RSA PUBLIC KEY-----`
-        
-        // Decrypt
-        const textoDesencriptado = CryptoJS.AES.decrypt(
-            login.password, publicKey).toString(CryptoJS.enc.Utf8);
-          console.log(textoDesencriptado)
+        //const keypair = await this.encriptar();
+        const encryptedEncodePass = login.password;
 
         console.log(login)
-        console.log(typeof(textoDesencriptado))
         console.log(login.password)
+
+        const encryptedPass = forge.util.decode64(encryptedEncodePass)
+        console.log(encryptedPass.trim())
+
+        const priv = forge.pki.privateKeyFromPem(privateKey);
+
+        const decryptedPass = priv.decrypt(encryptedPass.trim());
+
+        console.log(decryptedPass)
         return 'Hola bolvi';
+    }
+
+    encriptar(): Promise<any> {
+        return new Promise((f, r) => forge.pki.rsa.generateKeyPair(
+            2048, (err, pair) => err ? r(err) : f(pair)))
+            .then( (keypair: any) => {
+                console.log("[Enc/Dec]");
+                const priv = keypair.privateKey;
+                const pub = keypair.publicKey;
+                console.log('INICIO RRRRRRRRRRRRRRRRRRRRRRR')
+                console.log(forge.pki.privateKeyToPem(priv))
+                console.log('FIN Priv')
+                console.log('')
+                console.log('INICIO PUB')
+                console.log(forge.pki.publicKeyToPem(pub))
+                console.log('FIN PUB')
+                const keyPub = forge.pki.publicKeyToPem(pub);
+                const encrypted = pub.encrypt("Hello World!");
+                console.log("encrypted:", forge.util.encode64(encrypted));
+                
+                const decrypted = priv.decrypt(encrypted);
+                console.log("decrypted:", decrypted);
+                return keypair;
+            }).catch(err => console.log(err))
     }
 
     @Get()
