@@ -8,10 +8,11 @@ import { compareSync } from 'bcrypt';
 export class AuthService {
   constructor(private employeesService: EmployeesService, private jwtService: JwtService) {}
 
-  async validateUser(email: string, pass: string): Promise<any> {
-
+  async validateUser(email: string, pass: string): Promise<any> {    
+    console.log(email)
+    console.log(pass)
     const employee = await this.employeesService.findByEmail(email);
-    if (employee && compareSync(pass, employee.password)) {
+    if (employee && pass === employee.password) {
       const { password, ...result } = employee;
       return result;
     }
