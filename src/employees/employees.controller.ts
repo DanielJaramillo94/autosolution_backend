@@ -9,8 +9,12 @@ export class EmployeesController {
     constructor (private employeesService: EmployeesService) {}
 
     @Get()
-    findAll() {
-       return this.employeesService.query({filter:{}});
+    async findAll() {
+       const employees = await this.employeesService.query({filter:{}});
+       return employees.map((employee)=> {
+        const { password, ...result } = employee;
+           return result;
+       });
     }
 
     @Get(':email')
