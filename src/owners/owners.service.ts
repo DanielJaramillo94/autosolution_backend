@@ -3,19 +3,27 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Owner } from './owner.entity';
 import { OwnerDTO } from './owner.dto';
+import { TypeOrmQueryService } from '@nestjs-query/query-typeorm';
+import { QueryService } from '@nestjs-query/core';
+import { Logger} from '@nestjs/common';
 
-@Injectable()
-export class OwnersService {
-    constructor(@InjectRepository(Owner) private ownersRepository: Repository<Owner>) {}
+@QueryService(Owner)
+export class OwnersService extends TypeOrmQueryService<Owner> {
+    private readonly logger = new Logger(OwnersService.name)
+
+    constructor(@InjectRepository(Owner) private ownersRepository: Repository<Owner>) {
+        super(ownersRepository, { useSoftDelete: true });
+    }
 
     async findAll() {
         const owners =  await this.ownersRepository.find();
         return owners;
     }
 
-    async findById(ownerId: number) {
-        const owners =  await this.ownersRepository.findByIds([ownerId]);
-        return owners[0] ? owners[0] : owners;
+    async findByIdentifier(ownerId: number) {
+        const owner =  await this.ownersRepository.findOne({
+            where: { id: ownerId }, select: ["id", "name", "cellphone", "email" ], relations: ["vehicleXowners"]});
+        return owner || null;
     }
 
     async create(newOwner: OwnerDTO) {
