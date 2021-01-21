@@ -7,13 +7,16 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.trategy';
 import { AuthController } from './auth.controller';
 import { LocalStrategy } from './strategies/local.strategy';
-import { EmployeesModule } from 'src/employees/employees.module';
+import { EmployeesModule } from '../employees/employees.module';
+import { OwnersModule } from '../owners/owners.module';
 import { EmailStrategy } from './strategies/email.strategy';
 
 @Module({
   imports: [
     PassportModule,
     EmployeesModule,
+    OwnersModule,
+    
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),

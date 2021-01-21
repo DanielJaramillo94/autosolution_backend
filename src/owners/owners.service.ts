@@ -26,6 +26,13 @@ export class OwnersService extends TypeOrmQueryService<Owner> {
         return owner || null;
     }
 
+    async findByEmail(ownerEmail: string): Promise<Owner> {
+        const owner =  await this.ownersRepository.findOne({
+            where: { email: ownerEmail }, select: ["id", "name", "cellphone", "email"]
+        });
+        return owner || null;
+    }
+
     async create(newOwner: OwnerDTO) {
         return this.ownersRepository.save(newOwner);
     }
