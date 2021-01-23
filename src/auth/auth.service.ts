@@ -6,8 +6,8 @@ import { OwnersService } from '../owners/owners.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private employeesService: EmployeesService, private jwtService: JwtService, 
-              private ownersService: OwnersService) {}
+  constructor(private employeesService: EmployeesService, private jwtService: JwtService,
+    private ownersService: OwnersService) { }
 
   async validateUser(email: string, pass: string): Promise<any> {
     const employee = await this.employeesService.findByEmail(email);
@@ -32,21 +32,22 @@ export class AuthService {
       const { cellphone, ...result } = owner;
       return result;
     }
-    return null;   
+    return null;
   }
 
   async createToken(user: any) {
-    const payload = { name: user.name, id: user.id };    
-    const data = { 
-      access_token: this.jwtService.sign(payload,{
+    const payload = { name: user.name, id: user.id };
+    const data = {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      access_token: this.jwtService.sign(payload, {
         expiresIn: '30s'
-      },),
-    };  
+      }),
+    };
     const ownerId = payload.id
-    const token = data.access_token 
+    const token = data.access_token
     //sendEmail()
-    console.log("user",user)      
-    return {ownerId, token}
+    console.log("user", user)
+    return { ownerId, token }
   }
 
 }
