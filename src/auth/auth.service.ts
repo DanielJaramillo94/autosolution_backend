@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { username: user.email, sub: user.id, role: user.role.name };
     return {
       // eslint-disable-next-line @typescript-eslint/camelcase
       access_token: this.jwtService.sign(payload),
@@ -36,18 +36,12 @@ export class AuthService {
   }
 
   async createToken(user: any) {
-    const payload = { name: user.name, id: user.id };
-    const data = {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      access_token: this.jwtService.sign(payload, {
+    const payload = { name: user.name, id: user.id };    
+    return { 
+      access_token: this.jwtService.sign(payload,{
         expiresIn: '30s'
-      }),
-    };
-    const ownerId = payload.id
-    const token = data.access_token
-    //sendEmail()
-    console.log("user", user)
-    return { ownerId, token }
+      },),
+    };       
   }
 
 }
