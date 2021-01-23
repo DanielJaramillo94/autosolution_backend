@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/roles/roles.guard';
 @Controller('vehicleXowners')
 export class VehicleXownersController {
-    constructor (private vehicleXownersService: VehicleXownersService) {}
+    constructor(private vehicleXownersService: VehicleXownersService) { }
 
     @Get()
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -23,10 +23,17 @@ export class VehicleXownersController {
         return await this.vehicleXownersService.findById(vehicleXownerId);
     }
 
+    @Get('owner/:vehicleId')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ManagementAssistant)
+    async findOwnerByVehicleId(@Param('vehicleId') vehicleId: number) {
+        return await this.vehicleXownersService.findOwnerByVehicleId(vehicleId);
+    }
+
     @Post()
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(Role.ManagementAssistant)
-    async create(@Body() newVehicleXowner: VehicleXownerDTO){
+    async create(@Body() newVehicleXowner: VehicleXownerDTO) {
         return this.vehicleXownersService.create(newVehicleXowner);
     }
 
