@@ -1,7 +1,11 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, UseGuards } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { EmployeeDTO } from './employee.dto';
 import { Logger} from '@nestjs/common';
+import { Roles } from 'src/roles/roles.decorator';
+import { Role } from 'src/roles/role.enum';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/roles/roles.guard';
 
 @Controller('employees')
 export class EmployeesController {
@@ -9,6 +13,8 @@ export class EmployeesController {
     constructor (private employeesService: EmployeesService) {}
 
     @Get()
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.Admin)
     async findAll() {
        const employees = await this.employeesService.query({filter:{}});
        return employees.map((employee)=> {
@@ -21,11 +27,6 @@ export class EmployeesController {
     async findByEmail(@Param('email') employeeEmail: string) {
         return await this.employeesService.findByEmail(employeeEmail);
     }
-
-/*     @Get(':id')
-    async findByIdentifier(@Param('id') employeeId: number) {
-        return await this.employeesService.findByIdentifier(employeeId);
-    } */
 
     @Post()
     async create(@Body() newEmployee: EmployeeDTO){
