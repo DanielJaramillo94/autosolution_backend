@@ -22,10 +22,6 @@ export class Owner {
     })
     email: string;
 
-    @Column({
-    })
-    tokenDate: Date;
-
     @OneToMany(type => Audit, audit => audit.owner) 
     audits: Audit[];
 
