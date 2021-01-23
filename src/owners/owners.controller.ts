@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Post, Put, Delete, Body, UseGuards } from '@nestjs/common';
 import { OwnersService } from './owners.service';
 import { OwnerDTO } from './owner.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { VehiclesService } from 'src/vehicles/vehicles.service';
+import { EmailJwtAuthGuard } from '../auth/guards/emailJwt-auth.guard';
+import { VehiclesService } from '../vehicles/vehicles.service';
 
 @Controller('owners')
 export class OwnersController {
@@ -18,7 +18,7 @@ export class OwnersController {
         return await this.ownersService.findById(ownerId);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(EmailJwtAuthGuard)
     @Get('/showDetails/:id')
     async findByIdentifier(@Param('id') ownerId: number) {
         const ownerInfo = await this.ownersService.findByIdentifier(ownerId);

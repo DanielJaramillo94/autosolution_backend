@@ -37,16 +37,11 @@ export class AuthService {
 
   async createToken(user: any) {
     const payload = { name: user.name, id: user.id };    
-    const data = { 
+    return { 
       access_token: this.jwtService.sign(payload,{
         expiresIn: '30s'
       },),
-    };  
-    const ownerId = payload.id
-    const token = data.access_token 
-    //sendEmail()
-    console.log("user",user)      
-    return {ownerId, token}
+    };       
   }
 
 }

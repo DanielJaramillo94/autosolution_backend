@@ -10,6 +10,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { EmployeesModule } from '../employees/employees.module';
 import { OwnersModule } from '../owners/owners.module';
 import { EmailStrategy } from './strategies/email.strategy';
+import { EmailJwtStrategy } from './strategies/emailJwt.strategy';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { EmailStrategy } from './strategies/email.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, LocalStrategy, EmailStrategy],
+  providers: [AuthService, JwtStrategy, LocalStrategy, EmailStrategy, EmailJwtStrategy],
   exports: [AuthService]
 })
 export class AuthModule{}
