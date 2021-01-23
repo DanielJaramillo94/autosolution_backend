@@ -11,7 +11,7 @@ export class EmailStrategy extends PassportStrategy(Strategy,'email') {
   }
 
   async validate(email: string): Promise<any> {
-    const user = await this.authService.userExist(email);
+    const user = await this.authService.ownerExist(email);
     if (!user) {
       throw new UnauthorizedException();
     }

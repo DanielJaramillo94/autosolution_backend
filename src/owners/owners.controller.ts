@@ -1,10 +1,12 @@
-import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Delete, Body, UseGuards } from '@nestjs/common';
 import { OwnersService } from './owners.service';
 import { OwnerDTO } from './owner.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { VehiclesService } from 'src/vehicles/vehicles.service';
 
 @Controller('owners')
 export class OwnersController {
-    constructor (private ownersService: OwnersService) {}
+    constructor (private ownersService: OwnersService, private vehicleService : VehiclesService) {}
 
     @Get()
     findAll() {
@@ -14,6 +16,18 @@ export class OwnersController {
     @Get(':id')
     async findById(@Param('id') ownerId: number) {
         return await this.ownersService.findById(ownerId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/showDetails/:id')
+    async findByIdentifier(@Param('id') ownerId: number) {
+        const ownerInfo = await this.ownersService.findByIdentifier(ownerId);
+        const vehiclePromises = ownerInfo.vehicleXowners.map(async element =>{
+            const vehicle = await this.vehicleService.findById(element.vehicleId)
+            return vehicle
+        })
+        const vehicles = await Promise.all(vehiclePromises)
+        return {ownerInfo, vehicles}
     }
 
     @Post()
@@ -30,4 +44,5 @@ export class OwnersController {
     async delete(@Param('id') ownerId) {
         return this.ownersService.delete(ownerId);
     }
+
 }
