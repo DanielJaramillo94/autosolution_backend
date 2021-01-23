@@ -6,8 +6,8 @@ import { OwnersService } from '../owners/owners.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private employeesService: EmployeesService, private jwtService: JwtService, 
-              private ownersService: OwnersService) {}
+  constructor(private employeesService: EmployeesService, private jwtService: JwtService,
+    private ownersService: OwnersService) { }
 
   async validateUser(email: string, pass: string): Promise<any> {
     const employee = await this.employeesService.findByEmail(email);
@@ -32,7 +32,7 @@ export class AuthService {
       const { cellphone, ...result } = owner;
       return result;
     }
-    return null;   
+    return null;
   }
 
   async createToken(user: any) {
