@@ -4,11 +4,11 @@ import { VehicleStateDTO } from './vehicleState.dto';
 
 @Controller('vehicleStates')
 export class VehicleStatesController {
-    constructor (private vehicleStatesService: VehicleStatesService) {}
+    constructor(private vehicleStatesService: VehicleStatesService) { }
 
     @Get()
     findAll() {
-       return this.vehicleStatesService.findAll();
+        return this.vehicleStatesService.findAll();
     }
 
     @Get(':id')
@@ -16,8 +16,13 @@ export class VehicleStatesController {
         return await this.vehicleStatesService.findById(vehicleStateId);
     }
 
+    @Get(':mechanicalId')
+    async findByMechanicalId(@Param('mechanicalId') mechanicalId: number) {
+        return await this.vehicleStatesService.findByMechanicalId(mechanicalId);
+    }
+
     @Post()
-    async create(@Body() newVehicleState: VehicleStateDTO){
+    async create(@Body() newVehicleState: VehicleStateDTO) {
         return this.vehicleStatesService.create(newVehicleState);
     }
 
@@ -28,6 +33,6 @@ export class VehicleStatesController {
 
     @Delete(':id')
     async delete(@Param('id') vehicleStateId) {
-       return this.vehicleStatesService.delete(vehicleStateId);
+        return this.vehicleStatesService.delete(vehicleStateId);
     }
 }

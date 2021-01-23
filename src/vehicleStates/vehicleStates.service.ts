@@ -6,16 +6,23 @@ import { VehicleStateDTO } from './vehicleState.dto';
 
 @Injectable()
 export class VehicleStatesService {
-    constructor(@InjectRepository(VehicleState) private vehicleStatesRepository: Repository<VehicleState>) {}
+    constructor(@InjectRepository(VehicleState) private vehicleStatesRepository: Repository<VehicleState>) { }
 
     async findAll() {
-        const vehicleStates =  await this.vehicleStatesRepository.find();
+        const vehicleStates = await this.vehicleStatesRepository.find();
         return vehicleStates;
     }
 
     async findById(vehicleStateId: number) {
-        const vehicleStates =  await this.vehicleStatesRepository.findByIds([vehicleStateId]);
+        const vehicleStates = await this.vehicleStatesRepository.findByIds([vehicleStateId]);
         return vehicleStates[0] ? vehicleStates[0] : vehicleStates;
+    }
+
+    async findByMechanicalId(mechanicalId: number): Promise<any> {
+        const vehicleStates = await this.vehicleStatesRepository.find({
+            where: { mechanicalId: mechanicalId }, select: ["vehicleId"]
+        });
+        return vehicleStates || null;
     }
 
     async create(newVehicleState: VehicleStateDTO) {
