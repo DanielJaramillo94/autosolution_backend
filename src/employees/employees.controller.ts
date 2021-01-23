@@ -13,8 +13,7 @@ export class EmployeesController {
     constructor (private employeesService: EmployeesService) {}
 
     @Get()
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(Role.Admin)
+    @UseGuards(JwtAuthGuard)
     async findAll() {
        const employees = await this.employeesService.query({filter:{}});
        return employees.map((employee)=> {
@@ -22,23 +21,30 @@ export class EmployeesController {
            return result;
        });
     }
-
+    
     @Get(':email')
+    @UseGuards(JwtAuthGuard)
     async findByEmail(@Param('email') employeeEmail: string) {
         return await this.employeesService.findByEmail(employeeEmail);
     }
-
+    
     @Post()
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ManagementAssistant)
     async create(@Body() newEmployee: EmployeeDTO){
         return this.employeesService.create(newEmployee);
     }
 
     @Put(':id')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ManagementAssistant)
     async replace(@Param('id') employeeId: number, @Body() newEmployee: EmployeeDTO) {
         return this.employeesService.replace(employeeId, newEmployee);
     }
 
     @Delete(':id')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ManagementAssistant)
     async delete(@Param('id') employeeId) {
        return this.employeesService.deleteOne(employeeId);
     }
