@@ -5,6 +5,7 @@ import { Employee } from './employee.entity';
 import { EmployeeDTO } from './employee.dto';
 import { TypeOrmQueryService } from '@nestjs-query/query-typeorm';
 import { Logger} from '@nestjs/common';
+import { hashSync } from 'bcrypt';
 
 @QueryService(Employee)
 export class EmployeesService extends TypeOrmQueryService<Employee> {
@@ -31,6 +32,8 @@ export class EmployeesService extends TypeOrmQueryService<Employee> {
     }
 
     async create(newEmployee: EmployeeDTO) {   
+        const hash = hashSync(newEmployee.password, 10);
+        newEmployee.password = hash;
         return this.employeesRepository.save(newEmployee);
     }
 
