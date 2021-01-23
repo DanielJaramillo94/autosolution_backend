@@ -20,7 +20,14 @@ export class VehicleStatesService {
 
     async findByMechanicalId(mechanicalId: number): Promise<any> {
         const vehicleStates = await this.vehicleStatesRepository.find({
-            where: { mechanicalId: mechanicalId }, select: ["vehicleId"]
+            where: { mechanicalId: mechanicalId }, select: ["vehicleId", "mechanicalId", "stateId"]
+        });
+        return vehicleStates || null;
+    }
+
+    async findByVehicleId(vehicleId: number): Promise<any> {
+        const vehicleStates = await this.vehicleStatesRepository.findOne({
+            where: { vehicleId: vehicleId }, select: ["vehicleId", "mechanicalId", "stateId"]
         });
         return vehicleStates || null;
     }

@@ -16,9 +16,14 @@ export class VehicleStatesController {
         return await this.vehicleStatesService.findById(vehicleStateId);
     }
 
-    @Get(':mechanicalId')
+    @Get('mechanical/:mechanicalId')
     async findByMechanicalId(@Param('mechanicalId') mechanicalId: number) {
         return await this.vehicleStatesService.findByMechanicalId(mechanicalId);
+    }
+
+    @Get('vehicle/:vehicleId')
+    async findByVehicleId(@Param('vehicleId') vehicleId: number) {
+        return await this.vehicleStatesService.findByVehicleId(vehicleId);
     }
 
     @Post()
