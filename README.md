@@ -6,6 +6,10 @@
 
 Project created for programming web course
 
+## AWS server
+http://ec2-34-207-62-212.compute-1.amazonaws.com:3000/
+http://ec2-34-207-62-212.compute-1.amazonaws.com:3000/employees
+
 ## Installation
 
 ```bash
@@ -35,6 +39,8 @@ DATABASE_HOST = localhost_or_database_host<br />
 DATABASE_PORT = 3306_default_to_MariaDB_and_MySQL<br />
 DATABASE_USER = username_on_BD<br />
 DATABASE_PASSWORD = database_password<br />
+
+JWT_SECRET = secret_to_sign_and_verify_JWT
 
 _optional_<br />
 MODE = dev<br />

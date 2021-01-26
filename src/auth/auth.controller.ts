@@ -1,23 +1,23 @@
-import { Controller, Get, UseGuards, Req, Res } from '@nestjs/common';
+import { Controller, Request, UseGuards, Post, Get } from '@nestjs/common';
 
-import { GoogleAuthGuard } from '../auth/guards/google-auth.guard';
+import { AuthService } from './auth.service';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { EmailAuthGuard } from './guards/email-auth.guard';
 
 @Controller()
 export class AuthController {
+    constructor(private authService: AuthService) {}
 
-    @UseGuards(GoogleAuthGuard)
-    @Get('auth/google')
-    async login() {
-        //This is never called, it just starts the oauth flow
-    }
+  @UseGuards(LocalAuthGuard)
+  @Post('auth/login')
+  login(@Request() req) {
+    return this.authService.login(req.user);
+  }
 
-    @Get('google/callback')
-    @UseGuards(GoogleAuthGuard)
-    googleLoginCallback(@Req() req: any, @Res() res: any) {
-        let responseHTML = '<html><head><title>Main</title></head><body></body><script>res = %value%; window.opener.postMessage(res, "*");window.close();</script></html>'
-        responseHTML = responseHTML.replace('%value%', JSON.stringify({
-            user: req.user
-        }));
-        res.status(200).send(responseHTML);
-    }
+  @UseGuards(EmailAuthGuard)
+  @Post('auth/token')
+  async generateToken(@Request() req) {
+    return this.authService.createToken(req.user);
+  }
+
 }
