@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EmployeesService } from '../employees/employees.service';
 import { OwnersService } from '../owners/owners.service';
+import { compareSync } from 'bcrypt';
 import * as nodemailer from 'nodemailer';
 
 
@@ -14,7 +15,8 @@ export class AuthService {
     const employee = await this.employeesService.findByEmail(email);
     if (employee) {
       const { password, ...result } = employee;
-      return result;
+      if (compareSync(pass, password))
+        return result;
     }
     return null;
   }
@@ -33,7 +35,7 @@ export class AuthService {
       const { cellphone, ...result } = owner;
       return result;
     }
-    return null;
+    return null;  
   }
 
   async sendEmail(email: string, link: string) {
