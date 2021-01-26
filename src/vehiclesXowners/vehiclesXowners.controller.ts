@@ -41,7 +41,7 @@ export class VehicleXownersController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Supervisor)
+  @Roles(Role.Supervisor, Role.Mechanic)
   async create(@Body() newVehicleXowner: VehicleXownerDTO) {
     return this.vehicleXownersService.create(newVehicleXowner);
   }

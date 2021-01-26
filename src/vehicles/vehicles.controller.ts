@@ -33,7 +33,7 @@ export class VehiclesController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Mechanic)
+  @Roles(Role.Mechanic, Role.Supervisor)
   async create(@Body() newVehicle: VehicleDTO) {
     return this.vehiclesService.create(newVehicle);
   }
